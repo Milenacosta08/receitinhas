@@ -7,6 +7,6 @@ Requisitos Funcionais
 3. O Programa permite editar receitas.
 4. O Programa permite remover receitas.
 
-Linguagem de Programação: Javascript.
+Linguagem de Programação: Typecript.
 Framework: Express, Typeorm.
 Plataforma: Docker.
