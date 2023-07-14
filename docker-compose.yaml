@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+    database_ignite:
+        image: postgres
+        container_name: database_receitinhas
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=docker
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=receitinhas
+        volumes:
+            - pgdata:/data/postgres
+
+    redis:
+        image: redis:alpine
+        ports:
+            - 6379:6379
+
+volumes:
+    pgdata:
+        driver: local
