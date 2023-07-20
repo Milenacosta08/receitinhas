@@ -36,7 +36,7 @@ export class CreateUser1689300793503 implements MigrationInterface {
                         type: 'varchar'
                     },
                     {
-                        name: 'isAdmin',
+                        name: 'is_admin',
                         type: 'boolean',
                         default: false
                     },
@@ -57,10 +57,13 @@ export class CreateUser1689300793503 implements MigrationInterface {
                     }
                 ]
             })
-        )
+        );
+
+        await queryRunner.query(`INSERT INTO users (name, age, is_admin,email, password) VALUES ('Admin', 21, true,'admin@gmail.com', '$2b$10$LztA7uut9PY9p0zZDaqcde9thJ/H/kL3tujel5ixMZs9Cmh5bnuKW')`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`DELETE FROM users WHERE email = 'admin@gmail.com')`);
         await queryRunner.dropTable('users');
     }
 

@@ -10,7 +10,7 @@ interface IRequest {
     about_me?: string;
     email: string;
     password: string;
-    isAdmin?: boolean;
+    is_admin?: boolean;
 }
 
 @injectable()
@@ -27,7 +27,7 @@ class UpdateUserService {
         about_me,
         email,
         password,
-        isAdmin
+        is_admin
     }: IRequest): Promise<User> {
         const user = await this.usersRepository.findById(id);
 
@@ -42,7 +42,7 @@ class UpdateUserService {
             about_me,
             email,
             password,
-            isAdmin
+            is_admin
         });
 
         return userUpdated;

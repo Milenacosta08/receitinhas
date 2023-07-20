@@ -4,5 +4,5 @@ export default interface ICreateUserDTO {
     about_me?: string;
     email: string;
     password: string;
-    isAdmin?: boolean;
+    is_admin?: boolean;
 }

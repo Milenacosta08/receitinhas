@@ -10,7 +10,7 @@ interface IRequest {
     about_me?: string;
     email: string;
     password: string;
-    isAdmin?: boolean;
+    is_admin?: boolean;
 }
 
 @injectable()
@@ -28,7 +28,7 @@ class CreateUserService {
         about_me,
         email,
         password,
-        isAdmin = false
+        is_admin = false
     }: IRequest): Promise<User> {
         const userFound = await this.usersRepository.findByEmail(email);
 
@@ -44,7 +44,7 @@ class CreateUserService {
             about_me,
             email,
             password: hashedPassword,
-            isAdmin
+            is_admin
         });
 
         return user;
