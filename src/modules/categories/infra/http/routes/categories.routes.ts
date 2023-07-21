@@ -1,12 +1,14 @@
 import { Router } from "express";
 import CategoriesController from "../controller/CategoriesController";
 import { Joi, Segments, celebrate } from "celebrate";
+import ensureAuthenticated from "@shared/infra/http/middlewares/ensureAuthenticated";
 
 const categoriesRouter = Router();
 const categoriesController = new CategoriesController();
 
 categoriesRouter.post(
     '/',
+    ensureAuthenticated,
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required()
@@ -17,6 +19,7 @@ categoriesRouter.post(
 
 categoriesRouter.put(
     '/:id',
+    ensureAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required()
@@ -35,6 +38,7 @@ categoriesRouter.get(
 
 categoriesRouter.get(
     '/:id',
+    ensureAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required()
@@ -45,6 +49,7 @@ categoriesRouter.get(
 
 categoriesRouter.delete(
     '/:id',
+    ensureAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required()

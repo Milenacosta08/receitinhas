@@ -1,10 +1,14 @@
 import { Router } from "express";
-import UsersController from "../controller/UsersController";
 import { Joi, Segments, celebrate } from "celebrate";
-import ensureAuthenticated from "@shared/infra/http/middlewares/ensureAuthenticated";
 import multer from "multer";
+
 import uploadConfig from "@config/uploadConfig";
+
+import ensureAuthenticated from "@shared/infra/http/middlewares/ensureAuthenticated";
 import ensureVerifyUser from "@shared/infra/http/middlewares/ensureVerifyUser";
+import ensureVerifyUserOrAdmin from "@shared/infra/http/middlewares/ensureVerifyUserOrAdmin";
+
+import UsersController from "../controller/UsersController";
 
 const usersRouter = Router()
 const usersController = new UsersController()
@@ -24,7 +28,6 @@ usersRouter.post(
 
 usersRouter.post(
     '/',
-    ensureAuthenticated,
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
@@ -41,6 +44,7 @@ usersRouter.post(
 usersRouter.put(
     '/:id',
     ensureAuthenticated,
+    ensureVerifyUser,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required()
@@ -90,6 +94,7 @@ usersRouter.get(
 usersRouter.delete(
     "/:id",
     ensureAuthenticated,
+    ensureVerifyUserOrAdmin,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required()

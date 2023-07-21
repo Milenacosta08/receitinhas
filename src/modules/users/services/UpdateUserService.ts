@@ -2,7 +2,6 @@ import { inject, injectable } from "tsyringe";
 import IUsersRepository from "../repositories/IUsersRepository";
 import User from "../infra/typeorm/entities/user";
 import { AppError } from "@shared/errors/AppError";
-import { deleteFile } from "@shared/utils/file";
 
 interface IRequest {
     id: string;
@@ -36,6 +35,9 @@ class UpdateUserService {
             throw new AppError('User not found.');
         }
 
+        // NÃO PERMITIR QUE USUÁRIO COMUM ALTERE SUA PERMISSÃO PARA ADMINISTRADOR
+        const permission = user.is_admin ? is_admin : false;
+
         const userUpdated = await this.usersRepository.save({
             ...user,
             name,
@@ -43,7 +45,7 @@ class UpdateUserService {
             about_me,
             email,
             password,
-            is_admin
+            is_admin: permission
         });
 
         return userUpdated;

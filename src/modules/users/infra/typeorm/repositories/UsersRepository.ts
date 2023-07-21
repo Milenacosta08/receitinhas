@@ -34,6 +34,12 @@ class UsersRepository implements IUsersRepository {
         return await this.repository.find();
     }
 
+    async getPermission(id: string): Promise<string> {
+        const user = await this.repository.findOne(id);
+
+        return user.is_admin ? 'admin' : 'user';
+    }
+
     async delete(id: string): Promise<void> {
         await this.repository.softDelete(id);
     }

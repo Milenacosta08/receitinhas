@@ -15,7 +15,7 @@ class CategoriesController {
 
         const category = await createCategoryService.execute({ name });
 
-        return response.status(200).json(category);
+        return response.status(201).json(category);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {

@@ -3,6 +3,10 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 
 import "@shared/containers";
+
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from '../../../swagger.json';
+
 import { AppError } from "@shared/errors/AppError";
 import createConnection from "@shared/infra/typeorm";
 
@@ -14,6 +18,8 @@ const app = express();
 //app.use(rateLimiter);
 
 app.use(express.json());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(router);
 

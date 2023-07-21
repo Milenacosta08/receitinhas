@@ -16,7 +16,7 @@ class UsersController {
 
         const { user, token } = await authenticateUserService.execute({ email, password });
 
-        return response.status(200).json({ user, token });
+        return response.status(201).json({ user, token });
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
@@ -26,7 +26,7 @@ class UsersController {
 
         const user = await createUserService.execute({ name, email, password, age, about_me, is_admin });
 
-        return response.json(user);
+        return response.status(201).json(user);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {

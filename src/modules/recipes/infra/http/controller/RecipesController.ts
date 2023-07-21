@@ -22,7 +22,7 @@ class RecipesController {
             ingredients
         });
 
-        return response.status(200).json(recipe);
+        return response.status(201).json(recipe);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
