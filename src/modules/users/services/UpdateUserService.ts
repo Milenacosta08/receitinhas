@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import IUsersRepository from "../repositories/IUsersRepository";
 import User from "../infra/typeorm/entities/user";
 import { AppError } from "@shared/errors/AppError";
+import { deleteFile } from "@shared/utils/file";
 
 interface IRequest {
     id: string;
@@ -27,7 +28,7 @@ class UpdateUserService {
         about_me,
         email,
         password,
-        is_admin
+        is_admin,
     }: IRequest): Promise<User> {
         const user = await this.usersRepository.findById(id);
 

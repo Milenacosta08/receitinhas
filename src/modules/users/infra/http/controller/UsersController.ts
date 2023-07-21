@@ -6,6 +6,7 @@ import ListAllUsersService from "@modules/users/services/ListAllUsersService";
 import GetUserService from "@modules/users/services/GetUserService";
 import DeleteUserService from "@modules/users/services/DeleteUserService";
 import AuthenticateUserService from "@modules/users/services/AuthenticateUserService";
+import UpdateUserAvatarService from "@modules/users/services/UpdateUserAvatarService";
 
 class UsersController {
     public async authenticate(request: Request, response: Response): Promise<Response> {
@@ -19,18 +20,18 @@ class UsersController {
     }
 
     public async create(request: Request, response: Response): Promise<Response> {
-        const { name, email, password, age, about_me, isAdmin } = request.body;
+        const { name, email, password, age, about_me, is_admin } = request.body;
 
         const createUserService = container.resolve(CreateUserService);
 
-        const user = await createUserService.execute({ name, email, password, age, about_me, isAdmin });
+        const user = await createUserService.execute({ name, email, password, age, about_me, is_admin });
 
         return response.json(user);
     }
 
     public async update(request: Request, response: Response): Promise<Response> {
         const { id } = request.params;
-        const { name, email, password, age, about_me, isAdmin } = request.body;
+        const { name, email, password, age, about_me, is_admin } = request.body;
 
         const updateUserService = container.resolve(UpdateUserService);
 
@@ -41,10 +42,21 @@ class UsersController {
             password,
             age,
             about_me,
-            isAdmin
+            is_admin
         });
 
         return response.status(200).json(user);
+    }
+
+    public async updateAvatar(request: Request, response: Response): Promise<Response> {
+        const { id } = request.params;
+        const { filename } = request.file;
+
+        const updateUserAvatarService = container.resolve(UpdateUserAvatarService);
+
+        await updateUserAvatarService.execute({ user_id: id, avatar_file: filename });
+
+        return response.status(204).send();
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
