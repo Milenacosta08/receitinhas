@@ -237,7 +237,7 @@
                                 "type": "object",
                                 "properties": {
                                     "name": {
-                                        "type": "srting"
+                                        "type": "string"
                                     }
                                 },
                                 "example": {
@@ -398,8 +398,8 @@
             }
         },
         "/recipes/{id}": {
-            "tags": ["Recipes"],
             "get": {
+                "tags": ["Recipes"],
                 "summary": "Get a recipe",
                 "description": "Get a recipe",
                 "security": [{ "bearerAuth": [] }],
@@ -430,7 +430,49 @@
                     }
                 }
             },
+            "put": {
+                "tags": ["Recipes"],
+                "summary": "Update a recipe",
+                "description": "Update a recipe",
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Recipe ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Recipe"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Recipe"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Recipe not found"
+                    }
+                }
+            },
             "delete": {
+                "tags": ["Recipes"],
                 "summary": "Delete a recipe",
                 "description": "Delete a recipe",
                 "security": [{ "bearerAuth": [] }],
@@ -451,6 +493,103 @@
                     },
                     "400": {
                         "description": "Recipe not found"
+                    }
+                }
+            }
+        },
+        "/ingredients": {        
+            "get": {
+                "tags": ["Ingredients"],
+                "summary": "List all ingredients",
+                "description": "List all ingredients",
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ingredients/{id}": {
+            "put": {
+                "tags": ["Ingredients"],
+                "summary": "Update a ingredient",
+                "description": "Update a ingredient",
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ingredient ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "srting"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Ingredient name sample"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Ingredient not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Ingredients"],
+                "summary": "Delete a ingredient",
+                "description": "Delete a ingredient",
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Ingredient ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Ingredient not found"
                     }
                 }
             }
