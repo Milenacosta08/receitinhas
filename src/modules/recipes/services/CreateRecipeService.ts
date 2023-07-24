@@ -31,7 +31,6 @@ class CreateRecipeService {
         user_id,
         ingredients
     }: IRequest): Promise<Recipe> {
-        console.log('chamou service')
         const recipe = await this.recipesRepository.create({
             name,
             time,

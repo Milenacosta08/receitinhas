@@ -44,7 +44,7 @@ class IngredientsRepository implements IIngredientsRepository {
     }
 
     async findById(id: string): Promise<Ingredient> {
-        return await this.repository.findOne(id);
+        return await this.repository.findOne(id, { relations: ['recipe'] });
     }
 
     async list(): Promise<Ingredient[]> {
@@ -52,11 +52,11 @@ class IngredientsRepository implements IIngredientsRepository {
     }
 
     async delete(id: string): Promise<void> {
-        await this.repository.softDelete(id);
+        await this.repository.delete(id);
     }
 
     async deleteAll(ingredients: Ingredient[]): Promise<void> {
-        await this.repository.softRemove(ingredients);
+        await this.repository.remove(ingredients);
     }
 }
 

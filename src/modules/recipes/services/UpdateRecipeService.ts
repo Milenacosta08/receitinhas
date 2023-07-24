@@ -38,27 +38,24 @@ class UpdateRecipeService {
         user_id,
         ingredients
     }: IRequest): Promise<Recipe> {
-        const recipe = await this.recipesRepository.findById(id);
+        const recipe = await this.recipesRepository.findByIdWithRelations(id)
 
         if (!recipe) {
-            throw new AppError('Recipe not found');
+            throw new AppError('Recipe not found')
         }
-
-        const ingredientsRecipe = await this.recipesRepository.getIngredients(id);
 
         const existentsIngredients = ingredients.filter((ingredient) => ingredient.id !== undefined);
 
-        const ingredientsToDelete = ingredientsRecipe.filter(
+        const ingredientsToDelete = recipe.ingredients.filter(
             (ingredient) => !existentsIngredients.find((ingredientFind) => ingredientFind.id === ingredient.id),
         );
-        console.log("ingredientsToDelete", ingredientsToDelete);
 
         await this.ingredientsRepository.deleteAll(ingredientsToDelete);
 
         const ingredientsToUpdate = existentsIngredients.filter(
             ingredient => !ingredientsToDelete.find(ingredientToDelete => ingredientToDelete.id === ingredient.id)
         );
-        console.log("ingredientsToUpdate", ingredientsToUpdate);
+
         const newIngredients = ingredients.filter((ingredient) => ingredient.id === undefined);
 
         const newIngredientsFormatted = newIngredients.map((ingredient) => {
@@ -67,7 +64,6 @@ class UpdateRecipeService {
                 recipe_id: recipe.id
             }
         });
-        console.log("newIngredientsFormatted", newIngredientsFormatted)
 
         const recipeUpdated = await this.recipesRepository.save({
             ...recipe,
@@ -79,8 +75,6 @@ class UpdateRecipeService {
             rating,
             ingredients: [...ingredientsToUpdate, ...newIngredientsFormatted] as Ingredient[]
         });
-
-        console.log("recipeUpdated", recipeUpdated)
 
         return recipeUpdated;
     }
